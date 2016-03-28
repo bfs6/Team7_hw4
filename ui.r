@@ -55,8 +55,8 @@ shinyUI(
                          choices = list("show mean" = 1, "show median" = 2, "show confidence intervals"=3)
       ),
       selectInput("core", label = h3("cores"), 
-                  choices = list(" 1" = 1, " 4" = 4, "16" = 16), 
-                  selected = "4"),
+                  choices = list(" 1" = 1, " 4" = 4, "16" = 16, "24"=24), 
+                  selected = "16"),
       selectInput("displayans", "See Karls Answer:", c( "No"="no", "Yes"="yes"))
       
     ),
