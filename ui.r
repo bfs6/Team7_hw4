@@ -14,7 +14,7 @@ shinyUI(
       hr(),
       
       
-      selectInput("priorsock", "Prior for socks:", c("Negative Binomial"="neg", "Poisson"="pois")),
+      selectInput("priorsock", "Prior for socks:", c("Negative Binomial"="neg", "Poisson"="pois", "Binomial"="bin")),
       conditionalPanel(
         condition = "input.priorsock == 'neg'",
         sliderInput("p_mu", "mu", value=30, min=0, max=99),
@@ -25,7 +25,11 @@ shinyUI(
         sliderInput("lambda", "lambda", value=30, min=0, max=50)
         
       ),
-      
+      conditionalPanel(
+        condition = "input.priorsock == 'bin'",
+        sliderInput("nmu", "mu", value=50, min=0, max=100),
+        sliderInput("np", "p", value=0.6, min=0, max=1, step=0.05)
+      ),
       
       hr(),
       selectInput("priorpair", "Priors for proportion of pairs:", c("Beta"="beta", "Uniform"="uni", "Truncated-normal"="tnorm")),

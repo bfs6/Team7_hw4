@@ -17,6 +17,12 @@ shinyServer(
           socks2=rpois(input$sims, lambda=mean)
           return(socks2)
         }
+        if(input$priorsock=="bin"){
+          
+          
+          socks3=rbinom(input$sims, input$nmu, input$np)
+          return (socks3)
+        }
       }
     )
     
