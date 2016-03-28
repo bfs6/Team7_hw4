@@ -54,56 +54,27 @@ shinyServer(
     generativemodel=reactive(
       {
         picked=input$n_pairs*2+input$n_odds
+        df=data.frame("n_socks"=socks(), "prop_pairs"=proportion(), "n_odd"=prioronodds(),"n_pairs"=prioronpairs())
+        
+        socksim=mclapply(seq_len(input$sims), function(i){socks <- rep(seq_len(df$n_pairs[i] + df$n_odd[i]), rep(c(2, 1), c(df$n_pairs[i], df$n_odd[i])))
+        picked_socks <- sample(socks, size =  min(picked, df$n_socks[i]))
+        sock_counts <- table(picked_socks)
+        unique = sum(sock_counts == 1)
+        pairs = sum(sock_counts == 2)
+        c(unique = sum(sock_counts == 1), pairs = sum(sock_counts == 2),
+          n_socks = df$n_socks[i], n_pairs = df$n_pairs[i], n_odd = df$n_odd[i], prop_pairs = df$prop_pairs[i])}, mc.cores=input$core)
+      
         
         
-        sock_sim=mclapply(seq_len(input$sims), function(x){
-          if(input$priorsock=="neg"){
-            mean <- input$p_mu # for a total of 7*2=14 paired socks.
-            sd <- input$p_sd
-            prior_size_param <- -mean^2 / (mean - sd^2)
-            n_socks=rnbinom(1, mu = mean, size = prior_size_param)
-            
-          }
-          if(input$priorsock=='pois'){
-            mean=input$lambda
-            n_socks=rpois(1, lambda=mean)
-            
-          }
-          if (input$priorpair=="beta"){
-            prop_pairs <- rbeta(1, shape1 = input$prop_a, shape2 = input$prop_b)
-            
-          }
-          if (input$priorpair=='uni'){
-            prop_pairs<-runif(1, min=input$unif_range[1], max=input$unif_range[2])
-            
-          }
-          if (input$priorpair=="tnorm"){
-            prop_pairs<-rtruncnorm(1, a=0, b=1, mean=input$t_mu, sd=input$t_sd)
-            
-          }
-          
-          n_pairs <- round(floor(n_socks / 2) * prop_pairs)
-          n_odd <- n_socks - n_pairs * 2
-          
-          # Simulating picking out n_picked socks
-          socks <- rep(seq_len(n_pairs + n_odd), rep(c(2, 1), c(n_pairs, n_odd)))
-          picked_socks <- sample(socks, size =  min(picked, n_socks))
-          sock_counts <- table(picked_socks)
-          
-          # Returning the parameters and counts of the number of matched 
-          # and unique socks among those that were picked out.
-          c(unique = sum(sock_counts == 1), pairs = sum(sock_counts == 2),
-            n_socks = n_socks, n_pairs = n_pairs, n_odd = n_odd, prop_pairs = prop_pairs)}, mc.cores=input$core)
-        
-        df <- data.frame(matrix(unlist(sock_sim), ncol=6, byrow=T),stringsAsFactors=FALSE)
-        df.sub=subset(df, df$X1==input$n_odds & df$X2==input$n_pairs)
-        return(df.sub)
+        data=data.frame(matrix(unlist(socksim), ncol=6, byrow=T),stringsAsFactors=FALSE)
+        data.sub=subset(data, data$X1==input$n_odds & data$X2==input$n_pairs)
+        return(data.sub)
       }
-      
-      
     )
     
-    
+    ##OUTPUTS
+    ##OUTPUTS
+    ##OUTPUTS
     output$post=renderPlot(
       {
         ans=generativemodel()$X3
