@@ -1,0 +1,18 @@
+---
+title: "hw4"
+author: "Justin Wang"
+date: "3/28/2016"
+output: html_document
+---
+
+Homework 4 - TeamName
+========================================================
+
+## `generative model`
+The way I made my generative model was I first sampled my priors by the number of simulations usually some where in the millions. This is relatively fast becuase R is designed to sample distribtuions very fastly. Then I stored the distribtuion for socks, the proportion of pairs, the number of pairs and the number of odds in dataframe
+
+I used mclapply to apply each row my the dataframe to a function to sample the draws. unlike a forloop or lapply mclapply allows me to run the code on multiple cores/tasks thus making the code much faster. 
+I then add the sampled pairs and odds to the datatable and then perform approximate bayesian computution by subsetting on the desired sampled/observed data. 
+
+
+
