@@ -9,10 +9,14 @@ Homework 4 - TeamName
 ========================================================
 
 ## `generative model`
-The way I made my generative model was I first sampled my priors by the number of simulations usually some where in the millions. This is relatively fast becuase R is designed to sample distribtuions very fastly. Then I stored the distribtuion for socks, the proportion of pairs, the number of pairs and the number of odds in dataframe
+The way I made my generative model was I first sampled my priors by the number of simulations usually some where in the millions. This is relatively fast becuase R is designed to sample distribtuions very quickly. Then I stored the distribtuion for socks, the proportion of pairs, the number of pairs and the number of odds in dataframe. This is for easy reference and dataframes can handle large data relatively quickly/ 
 
-I used mclapply to apply each row my the dataframe to a function to sample the draws. unlike a forloop or lapply mclapply allows me to run the code on multiple cores/tasks thus making the code much faster. 
+I used mclapply to apply each row my the dataframe to a function to sample the draws. unlike a forloop or lapply, mclapply allows me to run the code on multiple cores/tasks thus making the code much faster. 
 I then add the sampled pairs and odds to the datatable and then perform approximate bayesian computution by subsetting on the desired sampled/observed data. 
 
+##`priors for n_socks`
+I chose negative binomial, binomial and poisson. The reason I chose these priors is becuase they sample discrete values and unlike continuous values represents the number of socks. I made the mean of all my models equal to 30 since these seems like the avg number of socks each person has. For negative binomial my initial parameters were similar to that of Karl Bromans analysis. For binomial I set n=50 and p=0.6. For poisson I set 1/lambda to be 30. In addition I had implemented sliders for people to chose their parameters as well. 
 
+##`priors for prior proportior for pairs of socks`
+I used beta, truncated normal and uniform. Since most people have more pairs of socks than singletons, I set my initial means to higher values (~0.8). I chose these distirbutions because they are closed distribtuions that can range from 0 to 1. The beta distribution had alpha of 15 and beta of 2. the unifrom had a range from 0.5 to 1. And the truncated normal had a mean of 0.75 with sd of 0.2. Likewise there were sliders to implement if one desires to try other distributions. 
 
