@@ -18,9 +18,9 @@ shinyServer(
           return(socks2)
         }
         if(input$priorsock=="bin"){
-          
-          
-          socks3=rbinom(input$sims, input$nmu, input$np)
+          s=input$nmu
+          p=input$np
+          socks3=rbinom(input$sims,size=s,prob=p)
           return (socks3)
         }
       }
@@ -69,7 +69,7 @@ shinyServer(
         pairs = sum(sock_counts == 2)
         c(unique = sum(sock_counts == 1), pairs = sum(sock_counts == 2),
           n_socks = df$n_socks[i], n_pairs = df$n_pairs[i], n_odd = df$n_odd[i], prop_pairs = df$prop_pairs[i])}, mc.cores=input$core)
-      
+        
         
         
         data=data.frame(matrix(unlist(socksim), ncol=6, byrow=T),stringsAsFactors=FALSE)
