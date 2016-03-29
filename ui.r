@@ -49,9 +49,7 @@ shinyUI(
         sliderInput("t_sd", "sd", value=0.2, min=0, max=3, step=0.05)
       ),
       
-      
-      
-      
+
       checkboxGroupInput("sumprior", label = h3("summary on prior"), 
                          choices = list("show mean" = 1, "show median" = 2, "show confidence intervals"=3)
       ),
@@ -61,7 +59,7 @@ shinyUI(
       selectInput("core", label = h3("cores"), 
                   choices = list(" 1" = 1, " 4" = 4, "16" = 16, "24"=24), 
                   selected = "16"),
-      selectInput("displayans", "See Karls Answer:", c( "No"="no", "Yes"="yes"))
+      selectInput("displayans", "See Karls Answer:", c( "No"="no", "Yes"="yes"), selected="no")
       
     ),
     mainPanel(

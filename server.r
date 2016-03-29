@@ -294,9 +294,9 @@ shinyServer(
         }
         else{
           return(list(
-            src = "",
+            src = "images.png",
             contentType = "image/png",
-            alt=""
+            alt="dfd"
           ))
         }
       }, deleteFile=FALSE
